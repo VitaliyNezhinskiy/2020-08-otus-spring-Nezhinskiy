@@ -1,1 +1,1 @@
-# 2020-08-otus-spring-Nezhinskiy
+Курс компании OTUS "Разработчик Spring Framework"
