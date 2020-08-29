@@ -6,20 +6,18 @@ import org.apache.commons.csv.CSVRecord;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Objects;
 
 public class Utils {
     private static List<CSVRecord> csvRecordList;
 
-    public Utils(String sPath) throws URISyntaxException {
-        Path path = Path.of(Objects.requireNonNull(getClass().
-                getClassLoader().getResource(sPath)).toURI());
+    public Utils(String sPath) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                Objects.requireNonNull(
+                        getClass().getClassLoader().getResourceAsStream(sPath))));
 
-        try (BufferedReader reader = Files.newBufferedReader(path);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
                      .withHeader(Header.class))) {
 

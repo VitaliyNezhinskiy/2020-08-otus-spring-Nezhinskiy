@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void startQuiz() {
-        ioService.writeMessage("Hello, my friend. \nPls write down your name:");
+        ioService.writeMessage("Hello, my friend. \nPlease write down your name:");
         String name = ioService.readMessage();
 
         User user = findByName(name);
