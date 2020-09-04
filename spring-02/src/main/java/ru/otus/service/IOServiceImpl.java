@@ -12,7 +12,6 @@ public class IOServiceImpl implements IOService {
     public static BufferedReader reader;
     public static PrintWriter writer;
 
-    @Autowired
     public IOServiceImpl(@Value("#{ T(java.lang.System).in}") InputStream inputStream,
                          @Value("#{ T(java.lang.System).out}") OutputStream outputStream) {
         reader = new BufferedReader(new InputStreamReader(inputStream));
