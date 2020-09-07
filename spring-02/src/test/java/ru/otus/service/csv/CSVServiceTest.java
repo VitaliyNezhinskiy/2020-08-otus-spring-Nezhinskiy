@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Класс CSVService: ")
 public class CSVServiceTest {
     private final CSVService CSVService = new CSVService(new CSVParserService(
-            new QuestionService("/test_questions_with_answers.csv")));
+            new QuestionService("./test_questions_with_answers.csv")));
 
 
     @Test
