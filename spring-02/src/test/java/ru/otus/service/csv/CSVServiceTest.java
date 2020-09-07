@@ -2,14 +2,15 @@ package ru.otus.service.csv;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.otus.service.QuestionService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @DisplayName("Класс CSVService: ")
 public class CSVServiceTest {
-    private final CSVService CSVService = new CSVService(new CSVParserService(this.getClass()
-            .getResourceAsStream("/test_questions_with_answers.csv")));
+    private final CSVService CSVService = new CSVService(new CSVParserService(
+            new QuestionService("/test_questions_with_answers.csv")));
 
 
     @Test

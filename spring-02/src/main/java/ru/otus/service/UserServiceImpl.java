@@ -17,6 +17,7 @@ public class UserServiceImpl implements UserService {
     private final IOService ioService;
     private final CSVService CSVService;
 
+    @Override
     public User findByNameAndSurname(String name, String surname) {
         Optional<User> optionalUser = userDao.findByNameAndSurname(name, surname);
         if (optionalUser.isPresent()) {

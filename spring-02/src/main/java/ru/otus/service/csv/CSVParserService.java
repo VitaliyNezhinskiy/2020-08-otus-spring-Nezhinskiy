@@ -4,26 +4,20 @@ import lombok.Getter;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.otus.service.QuestionService;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
 @Getter
 @Service
 public class CSVParserService {
-
     private List<CSVRecord> csvRecordList;
 
-    public CSVParserService(@Qualifier("questionsStream") InputStream questionsStream) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(questionsStream));
-             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
+    public CSVParserService(QuestionService questionService) {
+        try (CSVParser csvParser = new CSVParser(questionService.getReader(), CSVFormat.DEFAULT
                      .withHeader(Header.class))) {
-
             csvRecordList = csvParser.getRecords();
         } catch (IOException e) {
             e.printStackTrace();
