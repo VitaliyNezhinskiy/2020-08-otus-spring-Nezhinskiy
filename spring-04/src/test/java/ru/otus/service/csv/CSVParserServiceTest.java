@@ -17,11 +17,14 @@ import static org.mockito.Mockito.when;
 
 
 @DisplayName("Класс CSVParserService:")
-@SpringBootTest("CSVParserServiceTest.class")
+@SpringBootTest
 public class CSVParserServiceTest {
 
     @MockBean
     private QuestionService questionService;
+
+    @Configuration
+    static class Conf{}
 
     @DisplayName("корректно создается конструктором")
     @Test

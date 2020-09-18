@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.otus.utils.MessageSourceWrapper;
 
 import java.io.BufferedReader;
@@ -14,10 +15,13 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Класс QuestionService:")
-@SpringBootTest("QuestionServiceTest.class")
+@SpringBootTest
 public class QuestionServiceTest {
     @MockBean
     private MessageSourceWrapper msw;
+
+    @Configuration
+    static class Conf{}
 
     @Test
     @DisplayName(" корректно создавается конструктором")
