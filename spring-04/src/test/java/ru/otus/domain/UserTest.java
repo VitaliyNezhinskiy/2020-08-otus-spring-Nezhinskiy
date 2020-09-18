@@ -31,5 +31,4 @@ public class UserTest {
 
         assertEquals(actualUser.getAge(), CHANGED_AGE);
     }
-
 }
