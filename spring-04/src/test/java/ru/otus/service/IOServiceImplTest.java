@@ -28,7 +28,6 @@ public class IOServiceImplTest {
 
     private final static List<String> INPUT_LIST = List.of("ola1", "ola2", "ola3");
 
-
     @Autowired
     private IOService ioService;
 

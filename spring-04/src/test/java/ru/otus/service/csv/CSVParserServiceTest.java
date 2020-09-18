@@ -17,12 +17,8 @@ import static org.mockito.Mockito.when;
 
 
 @DisplayName("Класс CSVParserService:")
-@SpringBootTest
+@SpringBootTest("CSVParserServiceTest.class")
 public class CSVParserServiceTest {
-
-    @Configuration
-    static class Config {
-    }
 
     @MockBean
     private QuestionService questionService;

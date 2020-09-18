@@ -14,14 +14,10 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Класс QuestionService:")
-@SpringBootTest
+@SpringBootTest("QuestionServiceTest.class")
 public class QuestionServiceTest {
     @MockBean
     private MessageSourceWrapper msw;
-
-    @Configuration
-    static class Config{
-    }
 
     @Test
     @DisplayName(" корректно создавается конструктором")
