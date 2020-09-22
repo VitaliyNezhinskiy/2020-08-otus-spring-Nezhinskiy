@@ -8,8 +8,8 @@ import java.io.*;
 
 @Service
 public class IOServiceImpl implements IOService {
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    private final InputStream inputStream;
+    private final OutputStream outputStream;
 
     public IOServiceImpl(@Value("#{ T(java.lang.System).in}") InputStream inputStream,
                          @Value("#{ T(java.lang.System).out}") OutputStream outputStream) {
