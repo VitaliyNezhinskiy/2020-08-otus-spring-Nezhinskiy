@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Класс CSVService: ")
 @SpringBootTest
-public class CSVServiceTest {
+public class CSVServiceImplTest {
 
     @Configuration
     static class Conf {
@@ -35,7 +35,7 @@ public class CSVServiceTest {
                     new CSVParser(reader, CSVFormat.DEFAULT
                             .withHeader(Header.class)).getRecords()
             );
-            return new CSVService(csvParserService);
+            return new CSVServiceImpl(csvParserService);
         }
     }
 

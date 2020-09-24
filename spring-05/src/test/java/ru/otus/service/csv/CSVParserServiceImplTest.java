@@ -18,7 +18,7 @@ import java.nio.charset.Charset;
 
 @DisplayName("Класс CSVParserService:")
 @SpringBootTest
-public class CSVParserServiceTest {
+public class CSVParserServiceImplTest {
 
     @Autowired
     private CSVParserService csvParserService;
@@ -27,14 +27,14 @@ public class CSVParserServiceTest {
     static class Conf{
 
         @Bean
-        CSVParserService csvParserService(){
+        CSVParserServiceImpl csvParserService(){
             QuestionService questionService = Mockito.mock(QuestionService.class);
             Mockito.when(questionService.getReader()).thenReturn(new BufferedReader
                     (new InputStreamReader(new ByteArrayInputStream(
                             ("It has got one color for winter and summer. " +
                                     "What is it?,fir,beam,lightbulb,hare,1").getBytes(Charset.defaultCharset())))));
 
-            return new CSVParserService(questionService);
+            return new CSVParserServiceImpl(questionService);
         }
     }
 
