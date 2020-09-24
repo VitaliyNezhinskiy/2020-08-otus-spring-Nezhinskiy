@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final IOService ioService;
-    private final CSVService CSVService;
+    private final CSVService csvService;
     private final MessageSourceWrapper msw;
 
     @Override
@@ -42,15 +42,15 @@ public class UserServiceImpl implements UserService {
 
         int[] answers = askQuestions(5);
         ioService.writeMessage(msw.getMessage("result",
-               String.valueOf(CSVService.getPercentOfRightAnswers(answers))));
+               String.valueOf(csvService.getPercentOfRightAnswers(answers))));
     }
 
-    public int[] askQuestions(int count) {
+    private int[] askQuestions(int count) {
         int[] answers = new int[count];
         IntStream.range(0, answers.length).
                 forEach(i -> {
-            ioService.writeMessage(CSVService.getQuestion(i) + "\n"
-                    + CSVService.getAnswers(i));
+            ioService.writeMessage(csvService.getQuestion(i) + "\n"
+                    + csvService.getAnswers(i));
             answers[i] = Integer.parseInt(ioService.readMessage());
         });
         return answers;
