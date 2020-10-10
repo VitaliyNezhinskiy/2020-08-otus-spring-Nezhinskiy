@@ -1,0 +1,6 @@
+questions:
+  locale: ru_RU
+
+spring:
+  messages:
+    basename: i18n/bundle
