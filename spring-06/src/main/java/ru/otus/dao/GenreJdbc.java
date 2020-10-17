@@ -1,7 +1,6 @@
 package ru.otus.dao;
 
 import lombok.AllArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -23,25 +22,14 @@ public class GenreJdbc implements GenreDao {
 
     @Override
     public Optional<Genre> getById(long id) {
-        try {
-            return Optional.of(
-                    namedParameterJdbcOperations.queryForObject(
-                            "select id, name from genres where id = :id"
-                            , Map.of("id", id), new GenreMapper()));
-        } catch (EmptyResultDataAccessException exception) {
-            return Optional.ofNullable(null);
-        }
+        return Optional.of(
+                namedParameterJdbcOperations.queryForObject(
+                        "select id, name from genres where id = :id"
+                        , Map.of("id", id), new GenreMapper()));
     }
 
     @Override
     public long insert(Genre genre) {
-        String genreName = genre.getName();
-
-        Optional<Genre> genreOptional = findByName(genreName);
-        if (genreOptional.isPresent()) {
-            return genreOptional.get().getId();
-        }
-
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue("name", genre.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -60,19 +48,15 @@ public class GenreJdbc implements GenreDao {
 
     @Override
     public Optional<Genre> findByName(String name) {
-        try {
-            return Optional.of(
-                    namedParameterJdbcOperations
-                            .queryForObject(
-                                    "select id, name from genres where name = :name",
-                                    Map.of("name", name), new GenreMapper()));
-        } catch (EmptyResultDataAccessException exception) {
-            return Optional.ofNullable(null);
-        }
+        return Optional.of(
+                namedParameterJdbcOperations
+                        .queryForObject(
+                                "select id, name from genres where name = :name",
+                                Map.of("name", name), new GenreMapper()));
     }
 
 
-    static class GenreMapper implements RowMapper<Genre> {
+    private static class GenreMapper implements RowMapper<Genre> {
 
         @Override
         public Genre mapRow(ResultSet resultSet, int i) throws SQLException {

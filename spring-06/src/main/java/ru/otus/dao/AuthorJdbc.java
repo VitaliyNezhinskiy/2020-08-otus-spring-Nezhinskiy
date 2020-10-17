@@ -1,7 +1,6 @@
 package ru.otus.dao;
 
 import lombok.AllArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -23,26 +22,15 @@ public class AuthorJdbc implements AuthorDao {
 
     @Override
     public Optional<Author> getById(long id) {
-        try {
-            return Optional.of(jdbcOperations.queryForObject(
-                    "select id, fio from authors where id = :id",
-                    Map.of("id", id), new AuthorMapper()));
-        } catch (EmptyResultDataAccessException exception) {
-            return Optional.ofNullable(null);
-        }
+        return Optional.of(jdbcOperations.queryForObject(
+                "select id, fio from authors where id = :id",
+                Map.of("id", id), new AuthorMapper()));
     }
 
     @Override
     public long insert(Author author) {
-        final String authorFio = author.getFio();
-
-        Optional<Author> authorOptional = findByFio(authorFio);
-        if (authorOptional.isPresent()) {
-            return authorOptional.get().getId();
-        }
-
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue("fio", authorFio);
+        mapSqlParameterSource.addValue("fio", author.getFio());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcOperations.update("insert into authors(`fio`) values (:fio)",
                 mapSqlParameterSource, keyHolder);
@@ -59,13 +47,9 @@ public class AuthorJdbc implements AuthorDao {
 
     @Override
     public Optional<Author> findByFio(String fio) {
-        try {
-            return Optional.of(jdbcOperations.queryForObject(
-                    "select id, fio from authors where fio = :fio",
-                    Map.of("fio", fio), new AuthorMapper()));
-        } catch (EmptyResultDataAccessException exception) {
-            return Optional.ofNullable(null);
-        }
+        return Optional.of(jdbcOperations.queryForObject(
+                "select id, fio from authors where fio = :fio",
+                Map.of("fio", fio), new AuthorMapper()));
     }
 
 

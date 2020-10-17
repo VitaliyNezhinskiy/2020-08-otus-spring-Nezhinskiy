@@ -1,7 +1,6 @@
 package ru.otus.dao;
 
 import lombok.AllArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -23,37 +22,26 @@ import java.util.Optional;
 @AllArgsConstructor
 public class BookJdbc implements BookDao {
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
-    private final AuthorDao authorDao;
-    private final GenreDao genreDao;
 
     @Override
     public Optional<Book> getById(long id) {
-        try {
-            return Optional.of(
-                    namedParameterJdbcOperations.queryForObject(
-                            "select b.id, b.title, a.id, a.fio, g.id, g.name from books b, authors a, genres g " +
-                            "where b.id = :id and b.author_id = a.id and b.genre_id = g.id",
-                    Map.of("id", id), new BookMapper()));
-        } catch (EmptyResultDataAccessException exception) {
-            return Optional.ofNullable(null);
-        }
+        return Optional.of(
+                namedParameterJdbcOperations.queryForObject(
+                        "select b.id, b.title, a.id, a.fio, g.id, g.name from books b, authors a, genres g " +
+                                "where b.id = :id and b.author_id = a.id and b.genre_id = g.id",
+                        Map.of("id", id), new BookMapper()));
     }
 
     @Override
     public long insert(Book book) {
-        final Author author = book.getAuthor();
-        author.setId(authorDao.insert(author));
-
-        final Genre genre = book.getGenre();
-        genre.setId(genreDao.insert(genre));
-
         KeyHolder key = new GeneratedKeyHolder();
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
 
         namedParameterJdbcOperations
-                .update("insert into books (title, author_id, genre_id) values (:title,:authorID, :genreID)",
+                .update("insert into books (title, author_id, genre_id) values (:title,:authorID,:genreID)",
                         mapSqlParameterSource.addValues(Map.of("title", book.getTittle(),
-                                "authorID", author.getId(), "genreID", genre.getId())), key);
+                                "authorID", book.getAuthor().getId(),
+                                "genreID", book.getGenre().getId())), key);
 
         return key.getKey().longValue();
     }

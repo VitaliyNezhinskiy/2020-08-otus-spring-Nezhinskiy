@@ -10,7 +10,7 @@ import ru.otus.domain.Author;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Dao для работы с авторами должно: ")
 @JdbcTest
@@ -31,7 +31,7 @@ class AuthorJdbcTest {
     @Test
     void shouldGetAuthorById() {
         Author expectedAuthor = new Author(1L, "Frank Baum");
-        Optional<Author> actualOptionalAuthor = authorDao.getById(7L);
+        Optional<Author> actualOptionalAuthor = authorDao.getById(1L);
         assertThat(actualOptionalAuthor.orElse(null))
                 .isEqualToComparingFieldByField(expectedAuthor);
     }

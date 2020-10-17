@@ -19,30 +19,36 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class BookJdbcTest {
     public static final int EXPECTED_BOOK_COUNT = 2;
     public static final String DEFAULT_TITLE = "Bad advises";
-    public static final String DEFAULT_AUTHOR_NAME = "Zahoder";
-    public static final String DEFAULT_GENRE_NAME = "tale";
     public static final String THE_WIZARD_OF_OZ = "The Wizard of Oz";
     public static final long ID_WIZARD_OF_OZ = 1L;
 
     @Autowired
-    private BookDao dao;
+    private BookDao bookDao;
+
+    @Autowired
+    private GenreDao genreDao;
+
+    @Autowired
+    private AuthorDao authorDao;
+
 
     @DisplayName(" возвращать ожидаемое количество книг")
     @Test
     void shouldReturnExpectedBookCount() {
-        int count = dao.count();
+        int count = bookDao.count();
         assertThat(count).isEqualTo(EXPECTED_BOOK_COUNT);
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @DisplayName(" добавлять book в бд")
     @Test
     void shouldInsertBook() {
         Book expected = new Book(DEFAULT_TITLE,
-                new Author(DEFAULT_AUTHOR_NAME),
-                new Genre(DEFAULT_GENRE_NAME));
-        expected.setId(dao.insert(expected));
+                authorDao.getById(1L).get(),
+                genreDao.getById(1L).get());
+        expected.setId(bookDao.insert(expected));
 
-        Book actual = dao.getById(expected.getId()).orElse(null);
+        Book actual = bookDao.getById(expected.getId()).orElse(null);
         assertThat(actual).isEqualToComparingFieldByField(expected);
     }
 
@@ -53,34 +59,34 @@ class BookJdbcTest {
                 new Author(1L, "Frank Baum"),
                 new Genre(1L, "fairy tail"));
 
-        Book actualBook = dao.getById(1L).orElse(null);
+        Book actualBook = bookDao.getById(1L).orElse(null);
         assertThat(actualBook).isEqualToComparingFieldByField(expectedBook);
     }
 
     @DisplayName(" получить верное количество книг по названию в БД")
     @Test
     void shouldGetCorrectCountBooksByTitle() {
-        assertEquals(dao.countBooksByTitle(THE_WIZARD_OF_OZ), 1);
+        assertEquals(bookDao.countBooksByTitle(THE_WIZARD_OF_OZ), 1);
     }
 
     @DisplayName(" получить количество 0, если книги нет в БД")
     @Test
     void shouldGetZeroCountBooksByNotExistingTitle() {
-        assertEquals(dao.countBooksByTitle("Волшебник изумрудного города"), 0);
+        assertEquals(bookDao.countBooksByTitle("Волшебник изумрудного города"), 0);
     }
 
     @DisplayName(" корректно удалять книгу по ID из БД")
     @Test
     void shouldCorrectDeleteById() {
-        dao.deleteById(ID_WIZARD_OF_OZ);
-        assertEquals(dao.countBooksByTitle(THE_WIZARD_OF_OZ), 0);
+        bookDao.deleteById(ID_WIZARD_OF_OZ);
+        assertEquals(bookDao.countBooksByTitle(THE_WIZARD_OF_OZ), 0);
 
     }
 
     @DisplayName(" возвращать корректное количество всех книг в БД")
     @Test
     void shouldCorrectGetAll() {
-        assertEquals(dao.getAll().size(), 2);
+        assertEquals(bookDao.getAll().size(), 2);
     }
 
 }
