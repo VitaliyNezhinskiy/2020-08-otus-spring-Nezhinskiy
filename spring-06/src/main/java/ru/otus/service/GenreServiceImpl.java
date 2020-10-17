@@ -40,7 +40,7 @@ public class GenreServiceImpl implements GenreService {
         try {
             return genreDao.findByName(name);
         } catch (EmptyResultDataAccessException exception) {
-            return Optional.ofNullable(null);
+            return Optional.empty();
         }
     }
 }

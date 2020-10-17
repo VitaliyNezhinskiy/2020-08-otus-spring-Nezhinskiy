@@ -23,7 +23,7 @@ public class BookServiceImpl implements BookService {
         try {
             return bookDao.getById(id);
         } catch (EmptyResultDataAccessException exception) {
-            return Optional.ofNullable(null);
+            return Optional.empty();
         }
     }
 
