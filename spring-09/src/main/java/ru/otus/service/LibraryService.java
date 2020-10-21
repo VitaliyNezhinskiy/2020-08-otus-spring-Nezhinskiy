@@ -16,4 +16,6 @@ public interface LibraryService {
     void leaveComment();
 
     void deleteComment();
+
+    void allCommentsByTitle();
 }

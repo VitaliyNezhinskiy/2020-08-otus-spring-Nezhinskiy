@@ -8,4 +8,6 @@ public interface BookPrinterService {
     void printBookByTitle(String title);
 
     void printAllBooks();
+
+    void printAllComments(Book book);
 }

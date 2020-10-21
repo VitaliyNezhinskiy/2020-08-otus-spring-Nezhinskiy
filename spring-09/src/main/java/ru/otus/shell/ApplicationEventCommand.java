@@ -49,4 +49,9 @@ public class ApplicationEventCommand {
     public void deleteCommentCommand() {
         libraryService.deleteComment();
     }
+
+    @ShellMethod(value = "All comment", key = "all comments")
+    public void allCommentsCommand() {
+        libraryService.allCommentsByTitle();
+    }
 }

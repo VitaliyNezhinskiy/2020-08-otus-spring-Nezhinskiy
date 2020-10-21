@@ -19,13 +19,8 @@ public class BookPrinterServiceImpl implements BookPrinterService {
         String authors = book.getAuthors().stream()
                 .map(Author::getFio).collect(Collectors.joining(", "));
 
-        String comments = book.getComments().stream()
-                .map(comment -> comment.getNickname() + ": " + comment.getMessage())
-                .collect(Collectors.joining(", "));
-
         System.out.println("Книга: " + book.getTitle() + " (id = " + book.getId()
-                + "); Авторы: " + authors + "; Жанр: " + book.getGenre().getName()
-                + "; Комментарии: " + comments);
+                + "); Авторы: " + authors + "; Жанр: " + book.getGenre().getName());
     }
 
     @Transactional(readOnly = true)
@@ -40,10 +35,18 @@ public class BookPrinterServiceImpl implements BookPrinterService {
     @Override
     public void printAllBooks() {
         List<Book> books = bookService.getAllBooks();
-        if (books.size() == 0) {
+        if (books.isEmpty()) {
             System.out.println("Пусто");
         } else {
             books.forEach(this::printBook);
         }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public void printAllComments(Book book) {
+        System.out.println(book.getComments().stream()
+                .map(comment -> comment.getNickname() + ": " + comment.getMessage())
+                .collect(Collectors.joining(", ")));
     }
 }

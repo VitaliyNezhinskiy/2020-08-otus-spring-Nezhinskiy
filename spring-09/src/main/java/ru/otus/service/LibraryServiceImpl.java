@@ -2,6 +2,7 @@ package ru.otus.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.domain.Author;
 import ru.otus.domain.Book;
 import ru.otus.domain.Genre;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class LibraryServiceImpl implements LibraryService {
+    public static final String BOOK_NOT_FIND = "Такой книги не найдено";
     private final BookService bookService;
     private final BookPrinterService bookPrinterService;
     private final CommentService commentService;
@@ -50,7 +52,7 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public void putBook(){
+    public void putBook() {
         System.out.println("Введите название книги");
         final String title = ioService.getMessage();
         System.out.println("Введите автора книги");
@@ -79,7 +81,7 @@ public class LibraryServiceImpl implements LibraryService {
             System.out.println("Спасибо за ваш комментарий." +
                     " Вы помогаете нам стать лучше!");
         } else {
-            System.out.println("Такой книги не найдено");
+            System.out.println(BOOK_NOT_FIND);
         }
     }
 
@@ -97,11 +99,23 @@ public class LibraryServiceImpl implements LibraryService {
             bookOptional.get().getComments().stream()
                     .filter(comment -> comment.getNickname().equals(nickname))
                     .forEach(commentService::deleteComment);
-            
+
             System.out.println(nickname + " ваши комментарии к книге: '"
                     + tittle + "' успешно удалены!");
         } else {
-            System.out.println("Такой книги не найдено");
+            System.out.println(BOOK_NOT_FIND);
         }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public void allCommentsByTitle() {
+        System.out.println("Введите название книги к которой вы " +
+                "хотите увидеть все комментарии");
+        final String title = ioService.getMessage();
+
+        bookService.getBookByTitle(title).
+                ifPresentOrElse(bookPrinterService::printAllComments,
+                () -> System.out.println(BOOK_NOT_FIND));
     }
 }
