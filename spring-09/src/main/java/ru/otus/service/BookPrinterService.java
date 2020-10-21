@@ -9,5 +9,5 @@ public interface BookPrinterService {
 
     void printAllBooks();
 
-    void printAllComments(Book book);
+    void printAllCommentsByTitle(String title);
 }

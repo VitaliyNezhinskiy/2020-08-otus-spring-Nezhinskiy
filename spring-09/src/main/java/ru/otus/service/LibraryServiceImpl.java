@@ -2,7 +2,6 @@ package ru.otus.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.domain.Author;
 import ru.otus.domain.Book;
 import ru.otus.domain.Genre;
@@ -14,7 +13,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class LibraryServiceImpl implements LibraryService {
-    public static final String BOOK_NOT_FIND = "Такой книги не найдено";
+    private static final String BOOK_NOT_FIND = "Такой книги не найдено";
     private final BookService bookService;
     private final BookPrinterService bookPrinterService;
     private final CommentService commentService;
@@ -107,15 +106,11 @@ public class LibraryServiceImpl implements LibraryService {
         }
     }
 
-    @Transactional(readOnly = true)
     @Override
     public void allCommentsByTitle() {
         System.out.println("Введите название книги к которой вы " +
                 "хотите увидеть все комментарии");
         final String title = ioService.getMessage();
-
-        bookService.getBookByTitle(title).
-                ifPresentOrElse(bookPrinterService::printAllComments,
-                () -> System.out.println(BOOK_NOT_FIND));
+        bookPrinterService.printAllCommentsByTitle(title);
     }
 }

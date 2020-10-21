@@ -3,7 +3,10 @@ package ru.otus.repository;
 import org.springframework.stereotype.Repository;
 import ru.otus.domain.Book;
 
-import javax.persistence.*;
+import javax.persistence.EntityGraph;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,10 +55,7 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
 
     @Override
     public void deleteById(long id) {
-        Query query = entityManager.createQuery("delete " +
-                "from Book b " +
-                "where b.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        Book deletedBook = entityManager.find(Book.class, id);
+        entityManager.remove(deletedBook);
     }
 }

@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class BookPrinterServiceImpl implements BookPrinterService {
+    private final static String BOOK_NOT_FIND = "Такой книги нет";
     private final BookService bookService;
 
     @Override
@@ -28,7 +29,7 @@ public class BookPrinterServiceImpl implements BookPrinterService {
     public void printBookByTitle(String title) {
         bookService.getBookByTitle(title).
                 ifPresentOrElse(this::printBook,
-                        () -> System.out.println("Такой книги нет"));
+                        () -> System.out.println(BOOK_NOT_FIND));
     }
 
     @Transactional(readOnly = true)
@@ -44,9 +45,11 @@ public class BookPrinterServiceImpl implements BookPrinterService {
 
     @Transactional(readOnly = true)
     @Override
-    public void printAllComments(Book book) {
-        System.out.println(book.getComments().stream()
-                .map(comment -> comment.getNickname() + ": " + comment.getMessage())
-                .collect(Collectors.joining(", ")));
+    public void printAllCommentsByTitle(String title) {
+        bookService.getBookByTitle(title).
+                ifPresentOrElse((book) ->System.out.println(book.getComments().stream()
+                                .map(comment -> comment.getNickname() + ": " + comment.getMessage())
+                                .collect(Collectors.joining(", "))),
+                        () -> System.out.println(BOOK_NOT_FIND));
     }
 }
