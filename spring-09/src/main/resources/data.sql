@@ -10,9 +10,13 @@ VALUES (1, 'The Wizard of Oz', 1),
        (2, 'Harry Potter', 1),
        (3, 'The Lord of the Rings', 1);
 INSERT INTO COMMENTS (ID, BOOK_ID, NICKNAME, MESSAGE)
-VALUES (1, 1,'Vitaliy', 'It''s awesome book'),
-       (2, 2,'Max', 'I like Harry Potter'),
-       (3, 3,'Mitya', 'Its fairytale, so i don''t like it');
+VALUES (1, 1, 'Vitaliy', 'It''s awesome book'),
+       (2, 2, 'Max', 'I like Harry Potter'),
+       (3, 3, 'Mitya', 'Its fairytale, so i don''t like it');
 INSERT INTO BOOKS_AUTHORS(BOOK_ID, AUTHOR_ID)
 VALUES (1, 1),
        (2, 2);
+INSERT INTO BOOKS_GENRES(BOOK_ID, GENRE_ID)
+VALUES (1, 1),
+       (2, 1),
+       (3, 1);
