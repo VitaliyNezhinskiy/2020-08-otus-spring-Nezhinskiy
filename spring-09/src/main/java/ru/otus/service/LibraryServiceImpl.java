@@ -2,18 +2,17 @@ package ru.otus.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.domain.Author;
 import ru.otus.domain.Book;
 import ru.otus.domain.Genre;
 
 import java.util.Collections;
-import java.util.Optional;
 
 
 @Service
 @AllArgsConstructor
 public class LibraryServiceImpl implements LibraryService {
-    private static final String BOOK_NOT_FIND = "Такой книги не найдено";
     private final BookService bookService;
     private final BookPrinterService bookPrinterService;
     private final CommentService commentService;
@@ -70,40 +69,35 @@ public class LibraryServiceImpl implements LibraryService {
         System.out.println("Введите название книги к которой вы " +
                 "хотите оставить комментарий");
         final String title = ioService.getMessage();
-        Optional<Book> book = bookService.getBookByTitle(title);
-        if (book.isPresent()) {
-            System.out.println("Введите имя: ");
-            String nickname = ioService.getMessage();
-            System.out.println("Введите комментарий: ");
-            String message = ioService.getMessage();
-            commentService.leaveComment(book.get(), nickname, message);
-            System.out.println("Спасибо за ваш комментарий." +
-                    " Вы помогаете нам стать лучше!");
-        } else {
-            System.out.println(BOOK_NOT_FIND);
-        }
+
+        Book book = bookService.getBookByTitle(title);
+        System.out.println("Введите имя: ");
+        String nickname = ioService.getMessage();
+        System.out.println("Введите комментарий: ");
+        String message = ioService.getMessage();
+        commentService.leaveComment(book, nickname, message);
+        System.out.println("Спасибо за ваш комментарий." +
+                " Вы помогаете нам стать лучше!");
     }
 
+    @Transactional
     @Override
     public void deleteComment() {
         System.out.println("Введите название книги у которой вы хотите " +
                 "удалить комментарий");
         String tittle = ioService.getMessage();
-        final Optional<Book> bookOptional = bookService.getBookByTitle(tittle);
+        final Book book = bookService.getBookByTitle(tittle);
 
-        if (bookOptional.isPresent()) {
-            System.out.println("Введите свое имя");
-            String nickname = ioService.getMessage();
+        System.out.println("Введите свое имя");
+        String nickname = ioService.getMessage();
 
-            bookOptional.get().getComments().stream()
-                    .filter(comment -> comment.getNickname().equals(nickname))
-                    .forEach(commentService::deleteComment);
+        book.getComments().stream()
+                .filter(comment -> comment.getNickname().equals(nickname))
+                .forEach(commentService::deleteComment);
 
-            System.out.println(nickname + " ваши комментарии к книге: '"
-                    + tittle + "' успешно удалены!");
-        } else {
-            System.out.println(BOOK_NOT_FIND);
-        }
+        System.out.println(nickname + " ваши комментарии к книге: '"
+                + tittle + "' успешно удалены!");
+
     }
 
     @Override

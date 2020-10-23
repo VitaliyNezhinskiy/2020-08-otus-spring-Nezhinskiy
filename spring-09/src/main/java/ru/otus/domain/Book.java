@@ -31,11 +31,11 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
 
-    @OneToOne(targetEntity = Genre.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Genre.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Comment.class, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private List<Comment> comments;
 }

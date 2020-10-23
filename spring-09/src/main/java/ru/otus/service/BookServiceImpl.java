@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.domain.Author;
 import ru.otus.domain.Book;
+import ru.otus.exception.BookNotFoundException;
 import ru.otus.repository.BookRepositoryJpa;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -21,8 +21,11 @@ public class BookServiceImpl implements BookService {
 
     @Transactional(readOnly = true)
     @Override
-    public Optional<Book> getBookByTitle(String title) {
-        return bookRepositoryJpa.getByTitle(title).stream().findFirst();
+    public Book getBookByTitle(String title) {
+        return bookRepositoryJpa.getByTitle(title).stream().findFirst()
+                .orElseThrow(() -> {
+                    throw new BookNotFoundException();
+                });
     }
 
     @Transactional(readOnly = true)
