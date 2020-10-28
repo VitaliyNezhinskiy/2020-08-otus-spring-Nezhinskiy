@@ -5,6 +5,6 @@ import ru.otus.domain.Book;
 
 import java.util.List;
 
-public interface BookRepositoryJpa extends JpaRepository<Book, Long>, BookRepositoryCustom {
+public interface BookRepositoryJpa extends JpaRepository<Book, Long> {
     List<Book> getAllByTitle(String title);
 }

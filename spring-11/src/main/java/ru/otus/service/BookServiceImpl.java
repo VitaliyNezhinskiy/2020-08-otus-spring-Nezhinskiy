@@ -38,7 +38,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public void takeBookById(long id) {
         bookRepositoryJpa.findById(id)
-                .ifPresent(book -> bookRepositoryJpa.deleteBookAndCommentsById(book.getId()));
+                .ifPresent(book -> bookRepositoryJpa.deleteById(book.getId()));
     }
 
     @Transactional
@@ -46,7 +46,7 @@ public class BookServiceImpl implements BookService {
     public void takeAllBooks() {
         bookRepositoryJpa.findAll()
                 .stream().mapToLong(Book::getId)
-                .forEach(bookRepositoryJpa::deleteBookAndCommentsById);
+                .forEach(bookRepositoryJpa::deleteById);
     }
 
     @Transactional
