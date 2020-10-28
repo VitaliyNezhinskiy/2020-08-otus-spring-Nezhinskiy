@@ -22,7 +22,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public Book getBookByTitle(String title) {
-        return bookRepositoryJpa.getByTitle(title).stream().findFirst()
+        return bookRepositoryJpa.getAllByTitle(title).stream().findFirst()
                 .orElseThrow(() -> {
                     throw new BookNotFoundException();
                 });
@@ -37,7 +37,7 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public void takeBookById(long id) {
-        bookRepositoryJpa.getById(id)
+        bookRepositoryJpa.findById(id)
                 .ifPresent(book -> bookRepositoryJpa.deleteBookAndCommentsById(book.getId()));
     }
 
@@ -52,7 +52,7 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public void saveBook(Book book) {
-        if (bookRepositoryJpa.getById(book.getId()).isEmpty()) {
+        if (bookRepositoryJpa.findById(book.getId()).isEmpty()) {
             genreService.getByName(book.getGenre().getName())
                     .ifPresent(book::setGenre);
 

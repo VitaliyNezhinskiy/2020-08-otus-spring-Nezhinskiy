@@ -1,15 +1,10 @@
 package ru.otus.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.otus.domain.Author;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface AuthorRepositoryJpa extends CrudRepository<Author, Long> {
-    Optional<Author> getById(long id);
-
+public interface AuthorRepositoryJpa extends JpaRepository<Author, Long> {
     Optional<Author> getByFio(String fio);
-
-    List<Author> findAll();
 }
