@@ -25,11 +25,16 @@ public class MongoBookRepositoryWithListenerTest {
     @DisplayName("обладает каскадным сохранением")
     @Test
     public void shouldNotHaveCascadeSave() {
-        val book = new Book("3","T",
-                List.of(new Author("2", "A")),
-                new Genre("2", "f"),
-                List.of(new Comment( "3", "", "")));
-
+        val book = Book.builder().id("2")
+                .title("T")
+                .authors(List.of(new Author("2", "A")))
+                .genre(new Genre("2", "f"))
+                .comments(List.of(
+                        Comment.builder()
+                                .bookId( "2")
+                                .nickname( "")
+                                .message( "").build()))
+                .build();
         bookRepositoryJpa.save(book);
     }
 }

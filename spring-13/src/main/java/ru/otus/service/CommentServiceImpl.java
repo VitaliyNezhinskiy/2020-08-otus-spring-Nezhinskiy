@@ -19,7 +19,10 @@ public class CommentServiceImpl implements CommentService{
     @Transactional
     @Override
     public void leaveComment(Book book, String nickname, String message) {
-        Comment comment = new Comment(book.getId(), nickname, message);
+        Comment comment = Comment.builder()
+                .bookId(book.getId())
+                .nickname(nickname)
+                .message(message).build();
         List<Comment> bookComments = book.getComments();
         bookComments.add(comment);
         book.setComments(bookComments);

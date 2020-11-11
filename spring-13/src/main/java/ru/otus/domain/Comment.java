@@ -1,14 +1,12 @@
 package ru.otus.domain;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 @Document(collection ="comments")
 public class Comment {
 
@@ -20,10 +18,4 @@ public class Comment {
     private String nickname;
 
     private String message;
-
-    public Comment(String bookId, String nickname, String message) {
-        this.bookId = bookId;
-        this.nickname = nickname;
-        this.message = message;
-    }
 }

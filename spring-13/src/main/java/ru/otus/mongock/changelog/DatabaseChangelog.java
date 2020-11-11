@@ -28,24 +28,25 @@ public class DatabaseChangelog {
 
     @ChangeSet(order = "002", id = "initComment", author = "vitaliy", runAlways = true)
     public void initComments(CommentRepositoryJpa commentRepositoryJpa) {
-        comment = commentRepositoryJpa.save(new Comment("1", "v", "c"));
+        comment = commentRepositoryJpa.save(Comment.builder().id("1").bookId("1").nickname("v").message("c").build());
     }
 
     @ChangeSet(order = "003", id = "initAuthor", author = "vitaliy", runAlways = true)
     public void initAuthors(AuthorRepositoryJpa authorRepositoryJpa) {
-        author = authorRepositoryJpa.save(new Author("1","fio"));
+        author = authorRepositoryJpa.save(new Author("1", "fio"));
     }
 
     @ChangeSet(order = "004", id = "initGenre", author = "vitaliy", runAlways = true)
     public void initGenres(GenreRepositoryJpa genreRepositoryJpa) {
-        genre = genreRepositoryJpa.save(new Genre("1","fairy-tail"));
+        genre = genreRepositoryJpa.save(new Genre("1", "fairy-tail"));
     }
 
     @ChangeSet(order = "004", id = "insertWizardOfOz", author = "vitaliy", runAlways = true)
     public void insertWizardOfOz(BookRepositoryJpa bookRepositoryJpa) {
-        bookRepositoryJpa.save(new Book("The Wizard of OZ",
-                List.of(author),
-                genre,
-                List.of(comment)));
+        bookRepositoryJpa.save(Book.builder()
+                .title("The Wizard of OZ")
+                .authors(List.of(author))
+                .genre(genre)
+                .comments(List.of(comment)).build());
     }
 }

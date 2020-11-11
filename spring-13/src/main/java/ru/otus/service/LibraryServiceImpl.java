@@ -58,10 +58,11 @@ public class LibraryServiceImpl implements LibraryService {
         System.out.println("Введите жанр книги");
         final String genreName = ioService.getMessage();
 
-        bookService.saveBook(new Book(title,
-                Collections.singletonList(new Author("1", authorName)),
-                new Genre("1", genreName),
-                Collections.emptyList()));
+        bookService.saveBook(Book.builder()
+                .title(title)
+                .authors(Collections.singletonList(new Author("1", authorName)))
+                .genre(new Genre("1", genreName))
+                .comments(Collections.emptyList()).build());
     }
 
     @Override

@@ -28,10 +28,14 @@ public class MongoCommentRepositoryWithoutCascadeDeleteListenerTest {
 
     @Test
     public void shouldHaveGotCascadeDelete() {
-        val book = new Book("2", "T",
-                List.of(new Author("2", "FIO")),
-                new Genre("2", "N"),
-                List.of(new Comment("2","N", "M")));
+        val book = Book.builder()
+                .id("2").title("T")
+                .authors(List.of(new Author("2", "FIO")))
+                .genre(new Genre("2", "N"))
+                .comments(List.of(Comment.builder()
+                        .bookId("2").nickname("N")
+                        .message("M").build()))
+                .build();
 
         bookRepositoryJpa.save(book);
 
