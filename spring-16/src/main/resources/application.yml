@@ -1,0 +1,16 @@
+#spring:
+#  data:
+#    mongodb:
+#      port: 0
+#      database: test
+
+spring:
+  data:
+    mongodb:
+      database: test
+
+mongock:
+#  runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.mongock.changelog
