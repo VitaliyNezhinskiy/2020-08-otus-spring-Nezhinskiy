@@ -8,14 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.domain.Book;
-import ru.otus.domain.Comment;
 import ru.otus.rest.dto.BookDto;
 import ru.otus.rest.dto.CommentDto;
 import ru.otus.service.BookService;
 import ru.otus.service.CommentService;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -27,15 +25,12 @@ public class CommentController {
     @GetMapping("/books/{id}/comments")
     public String listPage(@PathVariable("id") String bookId,
                            Model model) {
-        BookDto bookDto = BookDto.toDto(bookService.getBookById(bookId));
-        List<Comment> commentList = bookService
-                .getBookById(bookId)
-                .getComments();
-        List<CommentDto> comments = commentList == null ? null
-                : commentList.stream().filter(Objects::nonNull)
+        Book book = bookService
+                .getBookById(bookId);
+        List<CommentDto> comments = book.getComments().stream()
                 .map(CommentDto::toDto)
                 .collect(Collectors.toList());
-        model.addAttribute("bookDto", bookDto);
+        model.addAttribute("bookDto", BookDto.toDto(book));
         model.addAttribute("comments", comments);
         return "comments-list";
     }
@@ -68,10 +63,8 @@ public class CommentController {
     public String deletePage(@RequestParam("nickname") String nickname,
                              @PathVariable("id") String bookId) {
 
-        final Book book = bookService.getBookById(bookId);
-        book.getComments().stream()
-                .filter(comment -> comment.getNickname().equals(nickname))
-                .forEach(commentService::deleteComment);
+        commentService.deleteCommentByNickname(bookService
+                .getBookById(bookId), nickname);
 
         return "redirect:/books/{id}/comments";
     }

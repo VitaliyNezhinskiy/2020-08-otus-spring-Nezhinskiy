@@ -26,14 +26,20 @@ public class CommentServiceImpl implements CommentService{
         List<Comment> bookComments = book.getComments();
         bookComments.add(comment);
         book.setComments(bookComments);
+        commentRepositoryJpa.save(comment);
         bookRepositoryJpa.save(book);
     }
 
     @Transactional
     @Override
     public void deleteComment(Comment comment) {
-        bookRepositoryJpa.findById(comment.getBookId())
-                .ifPresent(book -> book.getComments().remove(comment));
         commentRepositoryJpa.deleteById(comment.getId());
+    }
+
+    @Override
+    public void deleteCommentByNickname(Book book, String nickname) {
+        book.getComments().stream()
+                .filter(comment -> comment.getNickname().equals(nickname))
+                .forEach(this::deleteComment);
     }
 }

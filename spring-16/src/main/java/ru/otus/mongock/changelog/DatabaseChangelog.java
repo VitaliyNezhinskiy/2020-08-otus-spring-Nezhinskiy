@@ -58,12 +58,14 @@ public class DatabaseChangelog {
     @ChangeSet(order = "004", id = "insertWizardOfOz", author = "vitaliy", runAlways = true)
     public void insertWizardOfOz(BookRepositoryJpa bookRepositoryJpa) {
         bookRepositoryJpa.save(Book.builder()
+                .id("1")
                 .title("The Wizard of OZ")
                 .authors(List.of(authors.get(0)))
                 .genre(genres.get(0))
                 .comments(List.of(comments.get(0))).build());
 
         bookRepositoryJpa.save(Book.builder()
+                .id("2")
                 .title("Harry Potter")
                 .authors(List.of(authors.get(1)))
                 .genre(genres.get(0))

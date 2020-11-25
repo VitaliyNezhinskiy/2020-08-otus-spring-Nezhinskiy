@@ -10,6 +10,7 @@ import ru.otus.repository.BookRepositoryJpa;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -68,7 +69,8 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public void saveBook(Book book) {
-        if (bookRepositoryJpa.findById(String.valueOf(book.getId())).isEmpty()) {
+        Optional<Book> optionalBook = bookRepositoryJpa.findById(String.valueOf(book.getId()));
+        if (optionalBook.isEmpty()) {
             genreService.getByName(book.getGenre().getName())
                     .ifPresent(book::setGenre);
 
@@ -83,6 +85,8 @@ public class BookServiceImpl implements BookService {
             if (book.getComments() == null){
                 book.setComments(new ArrayList<>());
             }
+        } else {
+            book.setComments(optionalBook.get().getComments());
         }
         bookRepositoryJpa.save(book);
     }
