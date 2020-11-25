@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit book</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<!-- Book edition -->
+<form id="edit-form" th:action="@{/books/{id}/edit(id=${bookDto.id})}" th:method="post" action="books-edit.html">
+    <h1>Book Info:</h1>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" type="text" readonly="readonly" th:value="${bookDto.id}" value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="title-input">Title:</label>
+        <input id="title-input" name="title" type="text" th:value="${bookDto.title}" value="Tanya Grotter"/>
+    </div>
+
+    <div class="row">
+        <label for="authors-input">Author:</label>
+        <input id="authors-input" name="authors" type="text" th:value="${bookDto.authors}" value="Tanya Grotter"/>
+    </div>
+
+    <div class="row">
+        <label for="genre-input">Genre:</label>
+        <input id="genre-input" name="genre" type="text" th:value="${bookDto.genre}" value="Tanya Grotter"/>
+    </div>
+    <div class="row">
+        <button type="submit">Save</button>
+    </div>
+</form>
+
+</body>
+</html>

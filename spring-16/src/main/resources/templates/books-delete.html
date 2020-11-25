@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Delete book</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<form id="delete-form" th:action="@{/books/delete}" th:method="post" action="books-delete.html">
+    <h1>Write title book for delete:</h1>
+
+    <div class="row">
+        <label for="title-input">Title:</label>
+        <input id="title-input" name="title" type="text" value=""/>
+    </div>
+    <div class="row">
+        <button type="submit">Delete</button>
+    </div>
+</form>
+
+</body>
+</html>
