@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add Comment</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<form id="comment-form" method="post" action="comments-add.html">
+    <h1>Add Comment:</h1>
+
+    <div class="row">
+        <label for="nickname-input">Nickname:</label>
+        <input id="nickname-input" name="nickname" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="message-input">Comment:</label>
+        <input id="message-input" name="message" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <button id="submit-button" class="button" type="submit">Add comment</button>
+    </div>
+</form>
+
+</body>
+
+<script>
+    let book_id = window.location.pathname.split('/')[2];
+    document.getElementById("submit-button").onclick = function () {
+        const commentDto = {
+            'bookId': book_id,
+            'nickname': document.getElementById("nickname-input").value,
+            'message': document.getElementById("message-input").value,
+        };
+
+        $.ajax({
+            url: '/api/books/' + book_id + '/comments',
+            type: 'POST',
+            data: JSON.stringify(commentDto),
+            dataType: 'json',
+            contentType: "application/json"
+        }).done(function () {
+            window.location.href = '/books/' + book_id + '/comments';
+            return true;
+        });
+        return false;
+    };
+</script>
+</html>
