@@ -13,4 +13,4 @@ mongock:
 #  runner-type: "ApplicationRunner" # default
   runner-type: "InitializingBean"
   change-logs-scan-package:
-    - ru.otus.mongock.changelog
+    - ru.otus.mongock.ru.otus.changelog
