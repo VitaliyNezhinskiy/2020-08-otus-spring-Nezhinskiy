@@ -2,9 +2,7 @@
     border: 1px solid lightgray;
     padding: 5px;
 }
-
 body {
-    background-color: #edd5d5;
     padding: 50px;
 }
 
@@ -25,10 +23,9 @@ input:read-only {
     border: 2px solid lightgray;
     padding: 15px;
 }
-
 .menu ul {
     padding: 0;
-    background: #edf2e5;
+    background: #E4EFD1;
 }
 
 .menu li {
