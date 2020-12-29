@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Delete book</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+<form id="delete-form" method="post" action="books-delete.html">
+    <h1><span id="title">Delete </span></h1>
+    <div class="row">
+        <button id="submit-button" class="button red" type="submit">Delete</button>
+    </div>
+</form>
+
+</body>
+<script>
+    let book_id = new URLSearchParams(window.location.search).get('id');
+    ;
+    $(document).ready(function () {
+        $.ajax({
+            url: "/api/books/" + book_id
+        }).then(function (book) {
+            document.getElementById("title").append(book.title);
+        });
+    });
+    document.getElementById("submit-button").onclick = function () {
+        let searchParams = new URLSearchParams(window.location.search);
+        let book_id = searchParams.get('id');
+        $.ajax({
+            url: '/api/books/' + book_id,
+            type: "DELETE",
+            data: book_id
+        }).done(function () {
+            window.location.href = '/books';
+            return true;
+        });
+        return false;
+    };
+
+</script>
+
+<nav class="menu">
+    <ul>
+        <li><a href="/books">Back</a></li>
+    </ul>
+</nav>
+</html>
