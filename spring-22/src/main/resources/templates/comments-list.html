@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of comments</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+</head>
+<body>
+<h1>All Comments for
+    <span th:text="${bookDto.title}">Best title</span>
+</h1>
+
+<table class="comments" th:if="${comments !=null}">
+    <thead>
+    <tr>
+        <th>Nickname</th>
+        <th>Comment</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="comment: ${comments}">
+        <td th:text="${comment.nickname}">Vitaliy</td>
+        <td th:text="${comment.message}">My best comment</td>
+    </tr>
+    </tbody>
+</table>
+
+<nav class="menu">
+    <ul>
+        <li><a th:href="@{/books/{id}/comments/add(id=${bookDto.id})}" href="comments-add.html">Add</a></li>
+        <li><a th:href="@{/books/{id}/comments/delete(id=${bookDto.id})}">Delete</a></li>
+        <li><a th:href="@{/books}" href="books-list.html">Back</a></li>
+    </ul>
+</nav>
+</body>
+</html>
