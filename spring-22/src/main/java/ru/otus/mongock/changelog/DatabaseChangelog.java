@@ -3,6 +3,7 @@ package ru.otus.mongock.changelog;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.otus.domain.*;
 import ru.otus.repository.*;
 
@@ -69,6 +70,7 @@ public class DatabaseChangelog {
 
     @ChangeSet(order = "005", id = "insertUser", author = "vitaliy", runAlways = true)
     public void insertWizardOfOz(UserRepository userRepository) {
-        userRepository.save(new User("1","admin", "password", "ADMIN"));
+        String encodePassword = new BCryptPasswordEncoder().encode("password");
+        userRepository.save(new User("1", "admin", encodePassword, "ADMIN"));
     }
 }
