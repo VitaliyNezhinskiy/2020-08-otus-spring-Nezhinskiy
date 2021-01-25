@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      database: test
+  resources:
+    static-locations: classpath:/static/
+server:
+  port: 8090
+
+mongock:
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.mongock.changelog

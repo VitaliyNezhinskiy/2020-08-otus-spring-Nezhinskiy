@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add Comment for
+    <div th:text="${bookDto.title}">Best Title</div>
+    </title>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+</head>
+<body>
+
+<form id="comment-form" th:action="@{add}" th:method="post" action="comments-add.html">
+    <h1>Add Comment:</h1>
+
+    <div class="row">
+        <label for="nickname-input">Nickname:</label>
+        <input id="nickname-input" name="nickname" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="message-input">Comment:</label>
+        <input id="message-input" name="message" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Add comment</button>
+    </div>
+</form>
+
+</body>
+</html>
