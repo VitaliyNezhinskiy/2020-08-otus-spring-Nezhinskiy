@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Вам доступ запрещен</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+</head>
+
+<body>
+
+Вам доступ запрещен
+<nav class="menu">
+    <ul>
+        <li><a th:href="@{/books}" href="books-list.html">Back</a></li>
+        <li><a th:href="@{/logout}">Exit</a></li>
+    </ul>
+</nav>
+</body>
+</html>
