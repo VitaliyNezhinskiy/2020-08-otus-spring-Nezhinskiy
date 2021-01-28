@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Delete Comment for
+    <div th:text="${bookDto.title}">Best Title</div>
+    </title>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+</head>
+<body>
+
+<form id="comment-form" th:action="@{delete}" th:method="post" action="comments-delete.html">
+    <h1>Delete Comment:</h1>
+
+    <div class="row">
+        <label for="nickname-input">Nickname:</label>
+        <input id="nickname-input" name="nickname" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Delete</button>
+    </div>
+</form>
+
+</body>
+</html>
